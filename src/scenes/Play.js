@@ -12,22 +12,22 @@ class Play extends Phaser.Scene {
         this.load.audio('sfx_rocket', 'assets/rocket_shot.wav');
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
         //particles
-        this.load.image('lg_particle', 'assets/lg_part.png');
-        this.load.image('dg_particle', 'assets/dg_part.png');
+        // this.load.image('lg_particle', 'assets/lg_part.png');
+        // this.load.image('dg_particle', 'assets/dg_part.png');
     }
 
     create() {
-        const pl = this.add.particles('lg_particle');
-        const pdg = this.add.particles('dg_particle');
-        const pel = pl.createEmitter();
-        const ped = pdg.createEmitter();
-        pel.setPosition(300, 400);
-        pel.setSpeed(20);
-        pel.setDepth(0);
+        // const pl = this.add.particles('lg_particle');
+        // const pdg = this.add.particles('dg_particle');
+        // const pel = pl.createEmitter();
+        // const ped = pdg.createEmitter();
+        // pel.setPosition(300, 400);
+        // pel.setSpeed(20);
+        // pel.setDepth(0);
         
-        ped.setPosition(300, 400);
-        ped.setSpeed(20);
-        ped.setDepth(0);
+        // ped.setPosition(300, 400);
+        // ped.setSpeed(20);
+        // ped.setDepth(0);
         
  
 
@@ -156,10 +156,10 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(rocket, ship) {
-        if(rocket.x + rocket.width > ship.x &&
-            rocket.x < ship.x + ship.width &&
-            rocket.y + rocket.height > ship.y &&
-            rocket.y < ship.y + ship.width) {
+        if(rocket.x + rocket.width > ship.x+25 &&
+            rocket.x < ship.x + ship.width+25 &&
+            rocket.y + rocket.height > ship.y-40 &&
+            rocket.y < ship.y + ship.width-40) {
                 return true;
             }
         else {

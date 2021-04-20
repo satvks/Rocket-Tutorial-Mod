@@ -11,9 +11,25 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.audio('sfx_rocket', 'assets/rocket_shot.wav');
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
+        //particles
+        this.load.image('lg_particle', 'assets/lg_part.png');
+        this.load.image('dg_particle', 'assets/dg_part.png');
     }
 
     create() {
+        const pl = this.add.particles('lg_particle');
+        const pdg = this.add.particles('dg_particle');
+        const pel = pl.createEmitter();
+        const ped = pdg.createEmitter();
+        pel.setPosition(300, 400);
+        pel.setSpeed(20);
+        pel.setDepth(0);
+        
+        ped.setPosition(300, 400);
+        ped.setSpeed(20);
+        ped.setDepth(0);
+        
+ 
 
         // initialize score
         this.p1Score = 0;
@@ -26,7 +42,7 @@ class Play extends Phaser.Scene {
         });
 
         this.starfield = this.add.tileSprite(
-            0, 0, 640, 480, 'starfield'
+            0, 0, 840, 480, 'starfield'
             ).setOrigin(0,0);
         // create player
         this.p1Rocket = new Rocket(
@@ -96,7 +112,8 @@ class Play extends Phaser.Scene {
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(60000, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, '(R)estart', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64,
+                '(R)estart or (M)enu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
@@ -104,7 +121,7 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R); // reset
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT); // move left
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT); // move right
-
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         
     }
 
@@ -118,6 +135,10 @@ class Play extends Phaser.Scene {
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
+        }
+
+        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)) {
+            this.scene.start("menuScene");
         }
 
         if(this.checkCollision(this.p1Rocket, this.ship01) == true) {

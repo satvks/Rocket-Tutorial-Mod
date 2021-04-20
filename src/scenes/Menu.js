@@ -4,6 +4,10 @@ class Menu extends Phaser.Scene {
         super("menuScene");
     }
 
+    preload() {
+        this.load.audio('music', 'assets/space_wave.wav')
+        this.load.image('starfield', 'assets/starfield.png');
+    }
     create() {
         let menuConfig = {
             fontFamily: 'Courier',
@@ -18,6 +22,12 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
 
+        this.playMusic();
+
+        this.starfield = this.add.tileSprite(
+            0, 0, 840, 480, 'starfield'
+            ).setOrigin(0,0);
+        
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize -
             borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 , 'Use <--> to move and (F) to fire',
@@ -34,8 +44,16 @@ class Menu extends Phaser.Scene {
     }
 
     update() {
+        this.starfield.tilePositionX -= 4;
         if(Phaser.Input.Keyboard.JustDown(keyS)) {
             this.scene.start("playScene");
+        }
+    }
+
+    playMusic() {
+        if (!this.music) {
+            this.music = this.sound.add('music', {loop: true});
+            this.music.play();
         }
     }
 

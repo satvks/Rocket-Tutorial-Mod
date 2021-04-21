@@ -15,15 +15,12 @@ class Play extends Phaser.Scene {
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
         this.load.audio('sfx_rocket', 'assets/rocket_shot.wav');
         //particles
-        // this.load.image('rainbow_particle', 'assets/lg_part.png');
+        this.load.image('rainbow_particle', 'assets/cloudparticle.png');
     }
 
     create() {
-        // const pl = this.add.particles('lg_particle');
-        // const pel = pl.createEmitter();
-        // pel.setPosition(300, 400);
-        // pel.setSpeed(20);
-        // pel.setDepth(0);
+        var pl = this.add.particles('rainbow_particle');
+        pel = pl.createEmitter();
         
         const width = this.scale.width;
         const height = this.scale.height;
@@ -71,7 +68,8 @@ class Play extends Phaser.Scene {
             200,
             'spaceship',
             0,
-            125
+            125,
+            3
         );
 
         this.ship02 = new Ship(
@@ -80,7 +78,8 @@ class Play extends Phaser.Scene {
             280,
             'spaceship',
             0,
-            110
+            110,
+            3
             ).setOrigin(0,0);
         
         this.ship03 = new Ship(
@@ -89,16 +88,18 @@ class Play extends Phaser.Scene {
             borderUISize*6 + borderPadding*4,
             'spaceship',
             0,
-            100
+            100,
+            3
             ).setOrigin(0,0);
 
         this.badkitty = new Ship(
             this,
-            100,
-            125,
+            130,
+            120,
             'badkat',
             0,
-            125
+            200,
+            4
         );
 
         // green UI background
@@ -164,7 +165,7 @@ class Play extends Phaser.Scene {
             this.ship03.update();
             this.badkitty.update();
         }
-        
+
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
@@ -220,15 +221,19 @@ class Play extends Phaser.Scene {
         }
     }
 
-    shipExplode(ship) {
+    shipExplode(pel, ship) {
         this.sound.play('sfx_explosion');
         // temporarily hide ship
         ship.alpha = 0;
+        pel.setPosition(ship.x, ship.y);
+        pel.setSpeed(20);
+        pel.setDepth(0);
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after anim completes
           ship.reset();                         // reset ship position
+
           boom.destroy();                       // remove explosion sprite
         });
         // score add and repaint

@@ -15,6 +15,9 @@ class Ship extends Phaser.GameObjects.Sprite {
 
     reset() {
         this.x = game.config.width + 40;
+        var randomN = Math.floor(Math.random() * 41) - 20;
+        this.y = this.y + randomN;
         this.alpha = 1;
     }
+      
 }

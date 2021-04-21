@@ -6,6 +6,8 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.image('starfield', 'assets/starfield.png');
+        this.load.image('midground', 'assets/sky_mid.png');
+        this.load.image('foreground', 'assets/sky_low.png');
         this.load.image('spaceship', 'assets/spaceship.png');
         this.load.image('rocket', 'assets/rocket.png');
         this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -21,7 +23,10 @@ class Play extends Phaser.Scene {
         // pel.setPosition(300, 400);
         // pel.setSpeed(20);
         // pel.setDepth(0);
- 
+        
+        const width = this.scale.width;
+        const height = this.scale.height;
+        
 
         // initialize score
         this.p1Score = 0;
@@ -34,10 +39,16 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
             frameRate: 30
         });
-
+        //snorlax elements (parallax)
+        this.foreground = this.add.tileSprite(
+            borderUISize ,game.config.height/2 -4, 840, 480, 'foreground').setOrigin(0,0);
         this.starfield = this.add.tileSprite(
-            0, 0, 840, 480, 'starfield'
+            0, 0, 840, 160, 'starfield'
             ).setOrigin(0,0);
+        this.midground1 = this.add.tileSprite(
+            borderUISize, game.config.height/2 -4, width*2, height * 0.33, 'midground'
+            );
+            
         // create player
         this.p1Rocket = new Rocket(
             this,
@@ -133,6 +144,8 @@ class Play extends Phaser.Scene {
 
     update() {
         this.starfield.tilePositionX -= 4;
+        this.midground1.tilePositionX -= 2;
+        this.foreground.tilePositionX += 1;
         if(!this.gameOver) {
             this.p1Rocket.update();
             this.p2Rocket.update2();

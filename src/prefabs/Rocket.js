@@ -6,11 +6,20 @@ class Rocket extends Phaser.GameObjects.Sprite {
         this.movementSpeed = 3;
         this.isFiring = false;
         this.isFiring2 = false;
+        this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
     }
+    
+    create(){}
 
     update() {
         if(this.isFiring){
             this.y -= this.movementSpeed;
+            if(keyLEFT.isDown) {
+                this.x -= this.movementSpeed;
+            }
+            if(keyRIGHT.isDown) {
+                this.x += this.movementSpeed;
+            }
                 if(this.y < borderUISize*3){
                     this.y = game.config.height-borderUISize-borderPadding;
                     this.isFiring = false;
@@ -23,6 +32,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
                 this.x += this.movementSpeed;
             }
             if(Phaser.Input.Keyboard.JustDown(keyUP) ){
+                this.sfxRocket.play();  // play sfx
                 this.isFiring = true;
             }
         this.x = Phaser.Math.Clamp(this.x, borderUISize + borderPadding, game.config.width-borderUISize-borderPadding);
@@ -32,6 +42,12 @@ class Rocket extends Phaser.GameObjects.Sprite {
     update2() {
         if(this.isFiring2){
             this.y -= this.movementSpeed;
+            if(keyA.isDown) {
+                this.x -= this.movementSpeed;
+            }
+            if(keyD.isDown) {
+                this.x += this.movementSpeed;
+            }
                 if(this.y < borderUISize*3){
                     this.y = game.config.height-borderUISize-borderPadding;
                     this.isFiring2 = false;
@@ -44,6 +60,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
                 this.x += this.movementSpeed;
             }
             if( Phaser.Input.Keyboard.JustDown(keyW) ){
+                this.sfxRocket.play();  // play sfx
                 this.isFiring2 = true;
             }
         this.x = Phaser.Math.Clamp(this.x, borderUISize + borderPadding, game.config.width-borderUISize-borderPadding);

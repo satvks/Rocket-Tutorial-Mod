@@ -9,10 +9,11 @@ class Play extends Phaser.Scene {
         this.load.image('midground', 'assets/sky_mid.png');
         this.load.image('foreground', 'assets/sky_low.png');
         this.load.image('spaceship', 'assets/spaceship.png');
+        this.load.image('badkat', 'assets/bad_kitty.png');
         this.load.image('rocket', 'assets/rocket.png');
         this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.audio('sfx_rocket', 'assets/rocket_shot.wav');
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
+        this.load.audio('sfx_rocket', 'assets/rocket_shot.wav');
         //particles
         // this.load.image('rainbow_particle', 'assets/lg_part.png');
     }
@@ -91,6 +92,15 @@ class Play extends Phaser.Scene {
             100
             ).setOrigin(0,0);
 
+        this.badkitty = new Ship(
+            this,
+            100,
+            125,
+            'badkat',
+            0,
+            125
+        );
+
         // green UI background
         this.add.rectangle(
             0,
@@ -151,8 +161,10 @@ class Play extends Phaser.Scene {
             this.p2Rocket.update2();
             this.ship01.update();
             this.ship02.update();
-            this.ship03.update(); 
+            this.ship03.update();
+            this.badkitty.update();
         }
+        
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
@@ -185,6 +197,15 @@ class Play extends Phaser.Scene {
             this.p2Rocket.reset();    
             this.shipExplode(this.ship03); 
         }  
+        if(this.checkCollision(this.p1Rocket, this.badkitty) == true) {
+            this.p1Rocket.reset();
+            this.shipExplode2(this.badkitty);
+        }
+        if(this.checkCollision(this.p2Rocket, this.badkitty) == true) {
+            this.p2Rocket.reset();
+            this.shipExplode(this.badkitty);
+        }
+
     }
 
     checkCollision(rocket, ship) {

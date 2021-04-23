@@ -7,6 +7,9 @@ class Menu extends Phaser.Scene {
     preload() {
         this.load.audio('music', 'assets/space_wave.wav')
         this.load.image('starfield', 'assets/starfield.png');
+        this.load.image('sky', 'assets/sky2.png');
+        this.load.image('midground', 'assets/cloud1.png');
+        this.load.image('foreground', 'assets/cloud2.png');
     }
     create() {
         let menuConfig = {
@@ -29,7 +32,7 @@ class Menu extends Phaser.Scene {
             ).setOrigin(0,0);
         
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize -
-            borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
+            borderPadding, 'NYAN CATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 , 'Use <--> to move and (F) to fire',
             menuConfig).setOrigin(0.5);
 

@@ -12,4 +12,4 @@ let borderPadding = borderUISize / 3;
 
 let keyLEFT, keyRIGHT, keyUP, keyR, keyM, keyS,
     keyA, keyD, keyW;
-let pel;
+let particles, emitter;

@@ -1,4 +1,5 @@
 console.log("In Play");
+
 class Play extends Phaser.Scene {
     constructor() {
         super("playScene");
@@ -6,8 +7,9 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.image('starfield', 'assets/starfield.png');
-        this.load.image('midground', 'assets/sky_mid.png');
-        this.load.image('foreground', 'assets/sky_low.png');
+        this.load.image('sky', 'assets/sky2.png');
+        this.load.image('midground', 'assets/cloud1.png');
+        this.load.image('foreground', 'assets/cloud2.png');
         this.load.image('spaceship', 'assets/spaceship.png');
         this.load.image('badkat', 'assets/bad_kitty.png');
         this.load.image('rocket', 'assets/rocket.png');
@@ -19,13 +21,19 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        var pl = this.add.particles('rainbow_particle');
-        pel = pl.createEmitter();
-        
+        // particles = scene.add.particles('rainbow_particle');
+        // emitter = particles.createEmitter({
+        //     on: false,
+        //     lifespan: 500,
+        //     speed: 100,
+        //     gravityY: 10
+        // });
+
+        //emitter.gravity = 200;
+
         const width = this.scale.width;
         const height = this.scale.height;
         
-
         // initialize score
         this.p1Score = 0;
         this.p2Score = 0;
@@ -37,12 +45,14 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
             frameRate: 30
         });
+
         //snorlax elements (parallax)
-        this.foreground = this.add.tileSprite(
-            borderUISize ,game.config.height/2 -4, 840, 480, 'foreground').setOrigin(0,0);
+        this.sky = this.add.image(420, 240, 'sky');
         this.starfield = this.add.tileSprite(
             0, 0, 840, 160, 'starfield'
             ).setOrigin(0,0);
+        this.foreground = this.add.tileSprite(
+            borderUISize ,game.config.height/2 +50, 840, 200, 'foreground').setOrigin(0,0);
         this.midground1 = this.add.tileSprite(
             borderUISize, game.config.height/2 -4, width*2, height * 0.33, 'midground'
             );
@@ -134,7 +144,7 @@ class Play extends Phaser.Scene {
         this.scoreRight = this.add.text(borderUISize * 16 + borderPadding, borderUISize + borderPadding*2, this.p2Score, scoreConfig);
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(15000, () => {
+        this.clock = this.time.delayedCall(60000, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64,
                 '(R)estart or (M)enu', scoreConfig).setOrigin(0.5);
@@ -156,7 +166,7 @@ class Play extends Phaser.Scene {
     update() {
         this.starfield.tilePositionX -= 4;
         this.midground1.tilePositionX -= 2;
-        this.foreground.tilePositionX += 1;
+        this.foreground.tilePositionX -= 1;
         if(!this.gameOver) {
             this.p1Rocket.update();
             this.p2Rocket.update2();
@@ -221,25 +231,28 @@ class Play extends Phaser.Scene {
         }
     }
 
-    shipExplode(pel, ship) {
+    shipExplode(ship) {
         this.sound.play('sfx_explosion');
+        // emitter.x = ship.x;
+        // emitter.y = ship.y;
+        // emitter.start();
+
+        //this.sound.
         // temporarily hide ship
         ship.alpha = 0;
-        pel.setPosition(ship.x, ship.y);
-        pel.setSpeed(20);
-        pel.setDepth(0);
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after anim completes
           ship.reset();                         // reset ship position
-
           boom.destroy();                       // remove explosion sprite
         });
         // score add and repaint
         this.p1Score += ship.pointValue;
-        this.scoreLeft.text = this.p1Score;       
+        this.scoreLeft.text = this.p1Score;
+        // emitter.stop();
     }
+
     shipExplode2(ship) {
         this.sound.play('sfx_explosion');
         // temporarily hide ship
@@ -255,4 +268,5 @@ class Play extends Phaser.Scene {
         this.p2Score += ship.pointValue;
         this.scoreRight.text = this.p2Score;       
     }
+    
 }

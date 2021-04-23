@@ -14,8 +14,12 @@ class Play extends Phaser.Scene {
         this.load.image('badkat', 'assets/bad_kitty.png');
         this.load.image('rocket', 'assets/rocket.png');
         this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        //sounds
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
         this.load.audio('sfx_rocket', 'assets/rocket_shot.wav');
+        this.load.audio('hi_meow', 'assets/catsound2.wav');
+        this.load.audio('rarecat', 'assets/rarecatsound.wav');
+        this.load.audio('pbt', 'assets/fartsplosion.wav');
         //particles
         this.load.image('rainbow_particle', 'assets/cloudparticle.png');
     }
@@ -231,13 +235,11 @@ class Play extends Phaser.Scene {
         }
     }
 
-    shipExplode(ship) {
-        this.sound.play('sfx_explosion');
+    shipExplode(ship) {       
         // emitter.x = ship.x;
         // emitter.y = ship.y;
         // emitter.start();
-
-        //this.sound.
+        this.playRandomSfx();
         // temporarily hide ship
         ship.alpha = 0;
         // create explosion sprite at ship's position
@@ -254,7 +256,7 @@ class Play extends Phaser.Scene {
     }
 
     shipExplode2(ship) {
-        this.sound.play('sfx_explosion');
+        this.playRandomSfx();
         // temporarily hide ship
         ship.alpha = 0;
         // create explosion sprite at ship's position
@@ -267,6 +269,28 @@ class Play extends Phaser.Scene {
         // score add and repaint
         this.p2Score += ship.pointValue;
         this.scoreRight.text = this.p2Score;       
+    }
+
+    playRandomSfx() {
+        let n = Math.random();
+        switch(true) {
+            case n < 0.32:
+                this.sound.play('sfx_explosion');
+                break;
+            case n < 0.63:
+                this.sound.play('hi_meow');
+                break;
+            case n < 0.94:
+                this.sound.play('pbt');
+                break;
+            case n < 1:
+                this.sound.play('rarecat');
+                break;
+            default:
+                this.sound.play('sfx_explosion');
+                break;
+        }
+
     }
     
 }

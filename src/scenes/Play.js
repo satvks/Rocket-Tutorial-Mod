@@ -53,7 +53,7 @@ class Play extends Phaser.Scene {
         //snorlax elements (parallax)
         this.sky = this.add.image(420, 240, 'sky');
         this.starfield = this.add.tileSprite(
-            0, 0, 840, 160, 'starfield'
+            0, 0, 840, 140, 'starfield'
             ).setOrigin(0,0);
         this.foreground = this.add.tileSprite(
             borderUISize ,game.config.height/2 +50, 840, 200, 'foreground').setOrigin(0,0);
@@ -64,14 +64,14 @@ class Play extends Phaser.Scene {
         // create player
         this.p1Rocket = new Rocket(
             this,
-            game.config.width / 3,
+            game.config.width / 2,
             game.config.height - borderUISize - borderPadding,
             'rocket'
         );
 
         this.p2Rocket = new Rocket(
             this,
-            game.config.width / 2,
+            game.config.width / 3,
             game.config.height - borderUISize - borderPadding,
             'rocket'
         );
@@ -83,7 +83,7 @@ class Play extends Phaser.Scene {
             'spaceship',
             0,
             125,
-            3
+            2.5
         );
 
         this.ship02 = new Ship(
@@ -93,7 +93,7 @@ class Play extends Phaser.Scene {
             'spaceship',
             0,
             110,
-            3
+            2.5
             ).setOrigin(0,0);
         
         this.ship03 = new Ship(
@@ -103,7 +103,7 @@ class Play extends Phaser.Scene {
             'spaceship',
             0,
             100,
-            3
+            2.5
             ).setOrigin(0,0);
 
         this.badkitty = new Ship(
@@ -113,15 +113,15 @@ class Play extends Phaser.Scene {
             'badkat',
             0,
             200,
-            4
+            4.5
         );
 
         // green UI background
         this.add.rectangle(
             0,
-            borderUISize + borderPadding,
+            borderUISize,
             game.config.width,
-            borderUISize * 2,
+            borderUISize,
             0x00FF00,
             ).setOrigin(0,0);
 
@@ -137,15 +137,15 @@ class Play extends Phaser.Scene {
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
-            align: 'right',
+            align: 'center',
             padding: {
             top: 5,
             bottom: 5,
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
-        this.scoreRight = this.add.text(borderUISize * 16 + borderPadding, borderUISize + borderPadding*2, this.p2Score, scoreConfig);
+        this.scoreLeft = this.add.text(borderUISize * 2.5 + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.scoreRight = this.add.text(borderUISize * 20 + borderPadding, borderUISize + borderPadding*2, this.p2Score, scoreConfig);
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(60000, () => {

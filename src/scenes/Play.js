@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', 'assets/spaceship.png');
         this.load.image('badkat', 'assets/bad_kitty.png');
         this.load.image('rocket', 'assets/rocket.png');
+        this.load.image('rocketp2', 'assets/rocket-p2.png');
         this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         //sounds
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
@@ -73,7 +74,7 @@ class Play extends Phaser.Scene {
             this,
             game.config.width / 3,
             game.config.height - borderUISize - borderPadding,
-            'rocket'
+            'rocketp2'
         );
 
         this.ship01 = new Ship(

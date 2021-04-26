@@ -33,7 +33,7 @@ class Menu extends Phaser.Scene {
         
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize -
             borderPadding, 'NYAN CATROL', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 , 'Use <--> to move and (F) to fire',
+        this.add.text(game.config.width/2, game.config.height/2 , 'Use <--> to move and ^ (UP ARROW) To Fire',
             menuConfig).setOrigin(0.5);
 
         menuConfig.backgroundColor = '#00FF00';
